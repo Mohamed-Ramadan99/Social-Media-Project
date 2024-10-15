@@ -105,14 +105,18 @@ function setupUI (){
      })
      
        }
-       function getCurrentUser(){
-        let user = null ;
+       function getCurrentUser() {
+        let user = null;
         const storageUser = localStorage.getItem('user');
-        if(storageUser!==null){
-          user = JSON.parse(storageUser);
+        if (storageUser !== null) {
+          try {
+            user = JSON.parse(storageUser); // Parse if it's a JSON object
+          } catch (error) {
+            user = storageUser; // If it's just a plain string, return the string
+          }
         }
         return user;
-       }
+      }
        function showSuccessAlert(message , type){
         // const alertPlaceholder = document.getElementById("success-alert");
         // const alert = (message , type) => {
