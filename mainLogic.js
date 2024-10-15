@@ -176,6 +176,7 @@ function setupUI (){
           modalInstance.hide();
           setupUI();
            showSuccessAlert('delete success' , "primary");
+             getPosts();
          }).catch(err => {
           const message = err.response.data.message ;
           
