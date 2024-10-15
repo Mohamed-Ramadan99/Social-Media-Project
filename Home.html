@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Import SCRIPTS & STYLES -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="./node_modules/axios/dist/axios.min.js"></script>
+<script src="./mainLogic.js"></script>
+<style>
+    body{
+        background: #f0ecff;
+        
+    }
+    .card {
+        margin-top: 30px;
+    }
+    #add-btn{
+      position: fixed;
+      bottom: 5%;
+      right: 7%;
+      height: 70px;
+      width: 70px;
+      font-size: 50px;
+      color: white;
+      border-radius: 100px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0px 10px 10px rgba(0, 0 , 0, 0.3);
+    }
+    /* Load Screen */
+    
+.lds-spinner,
+.lds-spinner div,
+.lds-spinner div:after {
+  box-sizing: border-box;
+}
+.lds-spinner {
+  color: currentColor;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3.2px;
+  left: 36.8px;
+  width: 6.4px;
+  height: 17.6px;
+  border-radius: 20%;
+  background: currentColor;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+    /* Load SCreen */
+</style>
+</head>
+<body>
+  <!-- ====Modal==== -->
+
+  <!-- ===Start Login modal=== -->
+  <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="user" class="col-form-label">UserName:</label>
+              <input type="text" class="form-control" id="user">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="col-form-label">Password</label>
+              <input type="password" class="form-control" id="password">
+             
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="loginBtnClicked()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- == End Login modal== -->
+  
+ <!-- === Start register modal=== -->
+
+  <div class="modal fade" id="register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="user" class="col-form-label">Profile Image</label>
+              <input type="file" class="form-control" id="image-profile">
+            </div>
+            <div class="mb-3">
+              <label for="user" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="Name">
+            </div>
+            <div class="mb-3">
+              <label for="user" class="col-form-label">UserName:</label>
+              <input type="text" class="form-control" id="user-register">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="col-form-label">Password</label>
+              <input type="password" class="form-control" id="password-register">
+             
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="RegisterBtnClicked()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===End register modal=== -->
+
+   <!-- == Start Post Modal== -->
+
+  <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="post-modal-title">Create a new Post</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="CreateTitle" class="col-form-label"> Title</label>
+              <input type="text" class="form-control" id="CreateTitle">
+              <input type="hidden"  id="post-idd" value="">
+            </div>
+            
+            <div class="mb-3">
+              <textarea name="" id="text-post" style="width: 100%; height: 100px; border-color: gray; border-radius: 10px;" >
+              </textarea>
+             
+             
+            </div>
+            <div class="mb-3">
+              <label for="img-post" class="col-form-label">Image</label>
+              <input type="file" class="form-control" id="img-post">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="CreatePostClicked()">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ==End Post Modal== -->
+
+  <!-- ===End Modal === -->
+  <!-- Delete Modal  -->
+  <div class="modal fade" id="delete-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="delete-post-modal-title">Are you Sure you want to delete this post?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <input type="hidden" id="delete-post-id-input" value="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" onclick="confirmDeletePost()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+  <!-- Load SCreen -->
+  <div style="position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  " id="Loader">
+    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  </div>  
+  <!-- Load Screen -->
+
+
+  <!-- Add Post Button -->
+<div class="bg-primary" id="add-btn" onclick="addBtnClicked()" >
+  +
+</div>
+
+  <!-- End Post Button -->
+
+    <!-- Nav Bar content -->
+    <div class="contanier" >
+       
+        <div class="d-flex justify-content-center col-7 mx-auto" >
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded pt-3 w-100">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="Home.html">M.M</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="Home.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" onclick="profileClicked()" style="cursor: pointer;">Profile</a>
+                  </li>
+                
+                </ul>
+                <!-- Un logged in -->
+                  <div class="d-flex w-100 justify-content-end" id="login-Div" >
+                <button type="button" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn btn-outline-success mx-2 z"   id="login-btn">Login</button>
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#register-modal" id="register-btn">Register</button>
+               </div>
+              <!-- Logged in -->
+              <div class="d-flex w-100 justify-content-end align-items-center" id="logout-div"  >
+                <img id="nav-img-profile" class="rounded-circle" style="width: 40px; height: 40px;" src="./images/images.png" alt="" srcset="">
+                <b id="nav-username">@Ramboo</b>
+                <button onclick="logout()" type="button" data-bs-toggle="modal" class="btn btn-outline-danger mx-2"  id="logout-btn">Log out</button>
+               
+                
+            </div>
+            </div>
+          </nav>
+          </div>
+    </div>
+    <!-- End Nav Bar -->
+
+    <!--  Start Content  -->
+    <div class="contanier">
+        <div class="d-flex justify-content-center col-7 mx-auto mt-5" >
+        <div id="posts" class="w-100" >
+            <!-- Post -->
+            <div class="card w-100 shadow " >
+                <div class="card-header">
+                  <img src="./images/images (5).jpg" alt="" style="width: 40px; height: 40px;" class="rounded-circle border border-3">
+                  <b>@Mohamed</b>
+                </div>
+                <div class="card-body">
+                  <img src="./images/posts/download.jpg" class="w-100" alt="">
+                  <h6 class="mt-1" style="color: rgb(193, 193, 193);"> 2mins ago</h6>
+                  <h5>Welcome to my First Post</h5>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil sequi debitis nemo numquam iure, sit provident nostrum placeat doloribus, architecto eligendi totam. Molestias distinctio asperiores earum accusamus molestiae </p>
+                  <hr>
+                  <div class="comments">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                      </svg>
+                    <span>(3) Comments</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Post -->
+            
+        </div>
+        
+    </div>
+    </div>
+
+</body>
+<script>
+  let currentPage = 1 ;
+  let lastPage = 1;
+  // Infinte Scroll
+window.addEventListener("scroll" , function(){
+  const endOfpage = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+  if(endOfpage && currentPage<lastPage){
+    currentPage++
+    getPosts(false , currentPage);
+  }
+})
+  // Infinte Scroll
+ 
+
+   
+   getPosts();
+
+   setupUI();
+
+   function getPosts( reload = true , page=1){
+    toggleLoader(true);
+    axios.get(`${baseUrl}/posts?limit=5&page=${page}`).then(response => {
+    toggleLoader(false);
+    let posts = response.data.data ;
+    lastPage = response.data.meta.last_page;
+    if(reload) {
+      document.getElementById("posts").innerHTML= "";
+    }
+    for(post of posts){
+      let author = post.author;
+      let postTitle = "";
+      if(post.title!==null)
+      postTitle=post.title ;
+      let user = getCurrentUser();
+      let isMyPost = user!== null && author.id == user.id ;
+      let editBtn=``;
+      if(isMyPost){
+       editBtn = ` <button class="btn btn-danger" style=" margin-left:5px ; float:right" onclick="deletePostBtn('${encodeURIComponent(JSON.stringify(post))}')">delete</button>
+        <button class="btn btn-secondary" style="float:right" onclick="editPostBtn('${encodeURIComponent(JSON.stringify(post))}')">edit</button>`
+      
+       }
+       let content = `<div class="card w-100 shadow " >
+                <div class="card-header">
+                  <span onclick="userClicked(${author.id})" style ="cursor: pointer";>
+                  <img src="${author.profile_image}" alt="" style="width: 40px; height: 40px;" class="rounded-circle border border-3">
+                  <b>@${author.username}</b>
+                  </span>
+                  ${editBtn}
+                </div>
+                <div class="card-body" onclick="postClicked(${post.id})" style="cursor:pointer">
+                  <img src="${post.image}" class="w-100" alt="">
+                  <h6 class="mt-1" style="color: rgb(193, 193, 193);"> ${post.created_at}</h6>
+                  <h5> ${post.title? post.title : `Welcome to my First post`}</h5>
+                  <p> ${post.body} </p>
+                  <hr>
+                  <div class="comments">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                      </svg>
+                    <span>(${post.comments_count}) Comments 
+                      <span id="post-tags-${post.id}"> 
+                        
+                        </span>
+                      
+                      </span>
+                  </div>
+                </div>
+              </div>`;
+              document.getElementById("posts").innerHTML+=content;
+              let postIdTag = `post-tags-${post.id}`;
+               document.getElementById(postIdTag).innerHTML="";
+              
+              for( tag of post.tags){
+                console.log(tag);
+                let tagContent = ` <button class="btn btn-sm rounded-5" style="background-color : gray; color : white" >
+                          ${tag.name}
+                          </button>` ;
+                          document.getElementById(postIdTag).innerHTML+=tagContent;
+
+              }
+
+    }
+  });
+ }
+
+ 
+  
+   function postClicked (postId){
+  //  to change the page from changing the url
+  window.location = `postDetails.html?postId=${postId}`
+   }
+
+
+  function addBtnClicked(){
+   
+    document.getElementById("post-idd").value= "" ;
+    document.getElementById("post-modal-title").innerHTML="Create Post"
+    document.getElementById("CreateTitle").value = "" ;
+    document.getElementById("text-post").value = "" ;
+    let postModal = new bootstrap.Modal(document.getElementById("post-modal"),{});
+    postModal.toggle();
+  }
+
+function userClicked(userId){
+// alert(userId)
+ window.location = `profile.html?userid=${userId}`;
+}
+
+   
+
+    
+  
+</script>
+</html>
+
